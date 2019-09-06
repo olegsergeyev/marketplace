@@ -1,0 +1,12 @@
+{% extends 'market/base.html' %}
+
+{% block item %}
+    <div class="item">
+        <h3>Наименование: <a href="{% url 'item_detail' pk=item.pk %}">{{item.item_name}}</a></h3>
+        <p>Категория: {{item.department}}</p>
+        <p>Описание: {{item.text}}</p>
+        <p>Цена: {{item.price}}</p>
+        <p>Опубликовано: {{item.published_date}}</p>
+        <p>email: {{item.email}}</p>
+    </div>
+{% endblock %}

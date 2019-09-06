@@ -1,0 +1,42 @@
+{% load static %}
+<html>
+    <head>
+        <title>Marketplace</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/market.css' %}">
+    </head>
+    <body>
+
+        <div class="container logo">
+          <div class="row">
+            <div class="col-sm-4">
+              <p>Sanito</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container head">
+          <div class="row">
+            <div class="col-sm-2">
+              <a href="{% url 'item_list' %}">Главная</a>
+            </div>
+            <div class="col-sm-3">
+              <a href="{% url 'add_item' %}">Добавить товар</a>
+            </div>
+            <div class="col-sm-7"></div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8">
+              {% block item %}
+              {% endblock %}
+              <hr>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>
