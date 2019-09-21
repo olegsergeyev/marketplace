@@ -3,7 +3,7 @@
 {% block item %}
     <h2>Добавить товар</h2>
     <form method="POST", class="post-form">{% csrf_token %}
-      {{add_form.as_p}}
+      {{form.as_p}}
       <button type="submit" class="save btn btn-default">Добавить</button>
     </form>
 {% endblock %}

@@ -1,9 +1,10 @@
-import re
-
 from django import forms
 
 from .models import Item
-from .models import User_r
+
+from django.contrib.auth.models import User
+
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 class ItemForm(forms.ModelForm):
 
@@ -11,14 +12,12 @@ class ItemForm(forms.ModelForm):
         model = Item
         fields = ('item_name', 'department', 'text', 'price', 'email',)
 
-class RegForm(forms.ModelForm):
+class RegForm(UserCreationForm):
     class Meta:
-        model = User_r
-        fields = ('username', 'name', 'email', 'password',)
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email',)
 
-    def clean_username(self):
-        data = self.cleaned_data['username']
-        pattern = re.compile(r'[^a-zA-Z0-9]+$')
-        if pattern.search(data):
-            raise forms.ValidationError("Используйте только символы A-Z, a-z, 0-9")
-        return data
+class AuthForm(AuthenticationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'password',)

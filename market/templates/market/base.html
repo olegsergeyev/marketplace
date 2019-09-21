@@ -24,10 +24,21 @@
             <div class="col-sm-3">
               <a href="{% url 'add_item' %}">Добавить товар</a>
             </div>
-            <div class="col-sm-5"></div>
+            <div class="col-sm-3"></div>
+
+            {% if request.user.is_authenticated %}
+            <div class="col-sm-2"></div>
             <div class="col-sm-2">
-              <a href="{% url 'registration' %}">Регистрация</a>
+              <a href="{% url 'logout' %}">Выход</a>
             </div>
+            {% else %}
+            <div class="col-sm-2">
+              <a href="{% url 'auth' %}">Вход</a>
+            </div>
+            <div class="col-sm-2">
+              <a href="{% url 'reg' %}">Регистрация</a>
+            </div>
+            {% endif %}
           </div>
         </div>
 
