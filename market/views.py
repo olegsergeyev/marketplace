@@ -1,24 +1,25 @@
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Item
-from .forms import ItemForm, RegForm, AuthForm
+from market.models import Item
+from market.forms import ItemForm
 from django.utils import timezone
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
+
 
 def item_list(request):
     items = Item.objects.all().order_by('published_date')
     print(request.user.is_authenticated)
-    return render(request, 'market/item_list.html', {'items':items, 'request':request})
+    return render(request, 'market/item_list.html', {'items': items, 'request': request})
+
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     return render(request, 'market/item_detail.html', {'item':item})
 
+
 @login_required(redirect_field_name='add_item', login_url='auth')
 def add_item(request):
-    #if not request.user.is_authenticated:
-    #    return redirect('auth/')
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
@@ -33,39 +34,34 @@ def add_item(request):
             return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm()
-    return render(request, 'market/add_item.html', {'form':form})
+    return render(request, 'market/add_item.html', {'form': form})
+
 
 def registration(request):
     if request.method == "POST":
-        form = RegForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('item_list')
     else:
-        form = RegForm()
-    return render(request, 'market/registration.html', {'reg_form':form})
+        form = UserCreationForm()
+    return render(request, 'market/registration.html', {'reg_form': form})
 
-def login(request):
+
+def auth(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
-            form = LoginForm(request, data=request.POST)
+            form = AuthenticationForm(request, data=request.POST)
             if form.is_valid():
                 user = form.get_user()
-                if user is not None:
-                    if user.is_active:
-                        login(request, user)
-                        return redirect('item_list')
-                    else:
-                        return redirect('market/accfail.html')
-                else:
-                    return redirect('market/logfail.html')
-            else:
-                print(form.errors)
+                login(request, user)
+                return redirect('item_list')
         else:
-            form = LoginForm()
-        return render(request, 'market/login.html', {'login_form':form})
+            form = AuthenticationForm()
+        return render(request, 'market/auth.html', {'auth_form': form})
     else:
         return redirect('item_list')
+
 
 def logoutview(request):
     logout(request)

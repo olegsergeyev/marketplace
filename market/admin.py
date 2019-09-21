@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Item
+from market.models import Item  # абсолютные пути это плохо
 
 admin.site.register(Item)
