@@ -3,7 +3,7 @@
 {% block item %}
     <h2>Вход</h2>
     <form method="POST", class="post-form">{% csrf_token %}
-      {{auth_form.as_p}}
+      {{login_form.as_p}}
       <button type="submit" class="save btn btn-default">Войти</button>
     </form>
 {% endblock %}

@@ -45,10 +45,10 @@ def registration(request):
         form = RegForm()
     return render(request, 'market/registration.html', {'reg_form':form})
 
-def auth(request):
+def login(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
-            form = AuthForm(request, data=request.POST)
+            form = LoginForm(request, data=request.POST)
             if form.is_valid():
                 user = form.get_user()
                 if user is not None:
@@ -62,11 +62,11 @@ def auth(request):
             else:
                 print(form.errors)
         else:
-            form = AuthForm()
-        return render(request, 'market/auth.html', {'auth_form':form})
+            form = LoginForm()
+        return render(request, 'market/login.html', {'login_form':form})
     else:
         return redirect('item_list')
-        
+
 def logoutview(request):
     logout(request)
     return redirect('item_list')
