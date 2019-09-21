@@ -47,23 +47,24 @@ def registration(request):
 
 def auth(request):
     if request.method == "POST":
-        form = AuthForm(request.POST)
+        form = AuthForm(request, data=request.POST)
         if form.is_valid():
-            print('kfjen')
+            user = form.get_user()
             print(form.get_user())
             if user is not None:
-                if user.is_active():
-                    #login(request, user)
+                if user.is_active:
+                    login(request, user)
                     return redirect('item_list')
-                #else:
-                    #return redirect('market/accfail.html')
-            #else:
-                #return redirect('market/logfail.html')
+                else:
+                    return redirect('market/accfail.html')
+            else:
+                return redirect('market/logfail.html')
         else:
             print(form.errors)
     else:
         form = AuthForm()
     return render(request, 'market/auth.html', {'auth_form':form})
 
-def logout(request):
+def logoutview(request):
     logout(request)
+    return redirect('item_list')
