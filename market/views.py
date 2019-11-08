@@ -24,7 +24,8 @@ def item_list_view(request):
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
-    return render(request, 'market/item_detail.html', {'item':item})
+    user = str(item.author.username)
+    return render(request, 'market/item_detail.html', {'item':item, 'user':user})
 
 
 @login_required(redirect_field_name='add_item', login_url='login')
@@ -76,3 +77,13 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('item_list_view')
+
+def account_view(request):
+    user = request.user
+    item_list = Item.objects.filter(author=user)
+    return render(request, 'market/account_view.html', {'item_list': item_list})
+
+def profile_view(request, uname):
+    user = get_object_or_404(User, username=uname)
+    item_list = Item.objects.filter(author=user)
+    return render(request, 'market/profile.html', {'item_list': item_list, 'user':user})

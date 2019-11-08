@@ -1,17 +1,14 @@
 {% extends 'market/base.html' %}
 
 {% block item %}
+<div>Добавленные товары:</div>
+  {% for item in item_list %}
     <div class="item">
         <h3>Наименование: <a href="{% url 'item_detail' pk=item.pk %}">{{item.item_name}}</a></h3>
         <p>Категория: {{item.department}}</p>
-        <p>Описание: {{item.text}}</p>
         <p>Цена: {{item.price}}</p>
+        <p>Создано: {{item.author}}</p>
         <p>Опубликовано: {{item.published_date}}</p>
-        <p>Создано: <a href="{% url 'profile_view' uname=user %}">{{item.author}}</a></p>
-        <p>email: {{item.email}}</p>
     </div>
-
-    {% if item.author == request.user %}
-    <a href="" class="change_button">Редактировать</a>
-    {% endif %}
+  {% endfor %}
 {% endblock %}

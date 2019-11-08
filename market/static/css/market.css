@@ -1,3 +1,7 @@
+body {
+    background: #fff6e4;
+}
+
 .head {
   font-size: 24pt;
 }
@@ -13,6 +17,10 @@
   background: #DADADA;
   margin-top: 10px;
   font-size: 18pt;
+}
+
+.change_button {
+    font-size: 20pt;
 }
 
 h3 {
