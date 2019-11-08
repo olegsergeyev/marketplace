@@ -5,11 +5,19 @@ from market.forms import ItemForm
 from django.utils import timezone
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-def item_list(request):
-    items = Item.objects.all().order_by('published_date')
-    print(request.user.is_authenticated)
+def item_list_view(request):
+    item_list = Item.objects.all().order_by('published_date')
+    paginator = Paginator(item_list, 3)
+    page = request.GET.get('page')
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
     return render(request, 'market/item_list.html', {'items': items, 'request': request})
 
 
