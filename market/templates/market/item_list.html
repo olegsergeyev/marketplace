@@ -7,6 +7,7 @@
         <p>Категория: {{item.department}}</p>
         <p>Описание: {{item.text}}</p>
         <p>Цена: {{item.price}}</p>
+        
         <p>Опубликовано: {{item.published_date}}</p>
     </div>
   {% endfor %}
@@ -22,7 +23,7 @@
             </span>
 
             {% if items.has_next %}
-                <a href="?page={{ items.next_page_number}}">Вперед</a>     
+                <a href="?page={{ items.next_page_number}}">Вперед</a>
             {% endif %}
         </span>
     </div>

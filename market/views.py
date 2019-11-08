@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.models import User
 
 
 def item_list_view(request):
@@ -38,6 +39,7 @@ def add_item(request):
             item.price = request.POST.get('price')
             item.email = request.POST.get('email')
             item.published_date = timezone.now()
+            item.author = request.user
             item.save()
             return redirect('item_detail', pk=item.pk)
     else:
@@ -50,7 +52,7 @@ def registration(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('item_list')
+            return redirect('item_list_view')
     else:
         form = UserCreationForm()
     return render(request, 'market/registration.html', {'reg_form': form})
@@ -63,14 +65,14 @@ def login_view(request):
             if form.is_valid():
                 user = form.get_user()
                 login(request, user)
-                return redirect('item_list')
+                return redirect('item_list_view')
         else:
             form = AuthenticationForm()
         return render(request, 'market/login.html', {'login_form': form})
     else:
-        return redirect('item_list')
+        return redirect('item_list_view')
 
 
 def logout_view(request):
     logout(request)
-    return redirect('item_list')
+    return redirect('item_list_view')

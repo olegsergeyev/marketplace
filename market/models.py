@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Item(models.Model):
@@ -17,10 +18,7 @@ class Item(models.Model):
     price = models.IntegerField()
     email = models.EmailField(default='sanek@gmail.com')
     published_date = models.DateTimeField(default=timezone.now)
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.item_name
