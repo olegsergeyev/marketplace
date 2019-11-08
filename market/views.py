@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 
 def item_list_view(request):
-    item_list = Item.objects.all().order_by('published_date')
+    item_list = Item.objects.all().order_by('-published_date')
     paginator = Paginator(item_list, 3)
     page = request.GET.get('page')
     try:
@@ -87,3 +87,24 @@ def profile_view(request, uname):
     user = get_object_or_404(User, username=uname)
     item_list = Item.objects.filter(author=user)
     return render(request, 'market/profile.html', {'item_list': item_list, 'user':user})
+
+def item_edit(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    if item.author == request.user:
+        if request.method == "POST":
+            form = ItemForm(request.POST, instance=item)
+            if form.is_valid():
+                post = form.save(commit=False)
+                item.item_name = request.POST.get('item_name')
+                item.department = request.POST.get('department')
+                item.text = request.POST.get('text')
+                item.price = request.POST.get('price')
+                item.email = request.POST.get('email')
+                item.published_date = timezone.now()
+                post.save()
+                return redirect('item_detail', pk=item.pk)
+        else:
+            form = ItemForm(instance=item)
+            return render(request, 'market/item_edit.html', {'form': form})
+    else:
+        return render(request, 'market/item_detail.html', {'item':item, 'user':user})

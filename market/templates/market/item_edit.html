@@ -1,0 +1,9 @@
+{% extends 'market/base.html' %}
+
+{% block item %}
+    <h2>Добавить товар</h2>
+    <form method="POST", class="post-form">{% csrf_token %}
+      {{form.as_p}}
+      <button type="submit" class="save btn btn-default">Сохранить</button>
+    </form>
+{% endblock %}

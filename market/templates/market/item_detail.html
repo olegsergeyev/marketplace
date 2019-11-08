@@ -12,6 +12,6 @@
     </div>
 
     {% if item.author == request.user %}
-    <a href="" class="change_button">Редактировать</a>
+    <a href="{% url 'item_edit' pk=item.pk %}" class="btn btn-default">Редактировать</a>
     {% endif %}
 {% endblock %}
