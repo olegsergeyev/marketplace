@@ -48,7 +48,7 @@ def registration(request):
     return render(request, 'market/registration.html', {'reg_form': form})
 
 
-def login(request):
+def login_view(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
             form = AuthenticationForm(request, data=request.POST)
@@ -58,11 +58,11 @@ def login(request):
                 return redirect('item_list')
         else:
             form = AuthenticationForm()
-        return render(request, 'market/auth.html', {'auth_form': form})
+        return render(request, 'market/login.html', {'login_form': form})
     else:
         return redirect('item_list')
 
 
-def logoutview(request):
+def logout_view(request):
     logout(request)
     return redirect('item_list')
