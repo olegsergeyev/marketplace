@@ -18,7 +18,7 @@ def item_detail(request, pk):
     return render(request, 'market/item_detail.html', {'item':item})
 
 
-@login_required(redirect_field_name='add_item', login_url='auth')
+@login_required(redirect_field_name='add_item', login_url='login')
 def add_item(request):
     if request.method == "POST":
         form = ItemForm(request.POST)
@@ -48,7 +48,7 @@ def registration(request):
     return render(request, 'market/registration.html', {'reg_form': form})
 
 
-def auth(request):
+def login(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
             form = AuthenticationForm(request, data=request.POST)
